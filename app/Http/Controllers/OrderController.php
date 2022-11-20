@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
+use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -15,7 +17,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $title = 'Orders';
+        $orders = Order::with(['user','order_items.product'])->get();
+
+        return Inertia::render('orders/index',[
+            'orders' => $orders,
+            'title' => $title,
+            'singular_title' => Str::singular($title),
+        ]);
     }
 
     /**

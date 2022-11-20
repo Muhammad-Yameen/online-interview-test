@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\Currency;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory,Currency;
     protected $appends = ['order_total'];
 
     public function order_items()
@@ -18,12 +19,13 @@ class Order extends Model
 
     public function getOrdertotalAttribute()
     {
-        return $this->order_items()->sum(DB::raw('order_items.price * order_items.quantity'));
+        $amount = $this->order_items()->sum(DB::raw('order_items.price * order_items.quantity'));
+        return $this->currency($amount);
     }
 
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class,'id','user_id');
     }
 
     public function transactions()
