@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CreateOrderEvent;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
@@ -35,15 +36,25 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created resource in storage.
      *
+     * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function show(Order $order)
     {
-        //
-    }
+        $title = 'Show Order';
 
+        return Inertia::render(
+            'orders/show',
+            [
+                'order' => $order,
+                'transactions' => $order->transactions()->get(),
+                'title' => $title,
+            ]
+            );
+
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -77,6 +88,8 @@ class OrderController extends Controller
                     'amount' => $order->order_total
                 ]);
             }
+            event(new CreateOrderEvent($order->load('user')));
+
             Db::commit();
         } catch (\Throwable $th) {
             throw $th;
@@ -139,6 +152,7 @@ class OrderController extends Controller
                     'amount' => $order->order_total
                 ]);
             }
+            event(new CreateOrderEvent($order->load('user')));
             DB::commit();
 
         } catch (\Throwable $th) {

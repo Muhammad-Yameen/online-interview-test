@@ -10,6 +10,7 @@
     import ActionSection from '@/Components/ActionSection.vue';
     import DialogModal from '@/Components/DialogModal.vue';
     import SecondaryButton from '@/Components/SecondaryButton.vue';
+    import NavLink from '@/Components/NavLink.vue';
     import {
         ref
     } from '@vue/reactivity';
@@ -174,7 +175,7 @@
                                             <tr>
                                                 <th scope="col"
                                                     class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                    Details
+                                                    Tracking No
                                                 </th>
                                                 <th scope="col"
                                                     class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
@@ -210,7 +211,9 @@
                                             <tr class="border-b" v-for="(item,index) in orders" :key="index">
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                    {{item.details}}
+                                                    <NavLink :href="route('orders.show',item.id)">
+                                                        {{item.details}}
+                                                    </NavLink>
                                                 </td>
 
                                                 <td
