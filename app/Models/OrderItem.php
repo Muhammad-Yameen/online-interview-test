@@ -10,6 +10,7 @@ class OrderItem extends Model
 {
     use HasFactory,Currency;
     protected $appends = ['sub_total','formatted_price'];
+    protected $fillable = ['product_id','quantity','price'];
 
     public function product()
     {

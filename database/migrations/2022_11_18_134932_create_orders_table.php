@@ -16,10 +16,9 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->string('details');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('details')->nullable();
             $table->string('shipping_address');
-            $table->string('order_amount');
             $table->enum('status' , ['unpaid'  ,'paid' , 'pending' , 'canceled'])->default('unpaid');
             $table->timestamps();
         });

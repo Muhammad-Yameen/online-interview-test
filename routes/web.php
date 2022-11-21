@@ -4,6 +4,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Models\Order;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,6 +40,7 @@ Route::middleware([
 
     Route::resource('users', UserController::class);
     Route::resource('orders', OrderController::class);
+    Route::put('order/update_status/{orderId}', [OrderController::class,'updateStatus']);
     Route::resource('transaction', TransactionController::class);
     Route::resource('products', ProductController::class);
 

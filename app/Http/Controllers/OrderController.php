@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -18,11 +22,14 @@ class OrderController extends Controller
     public function index()
     {
         $title = 'Orders';
-        $orders = Order::with(['user','order_items.product'])->get();
-
-        return Inertia::render('orders/index',[
+        $orders = Order::with(['user', 'order_items.product'])->get();
+        $users = User::all();
+        $products = Product::all();
+        return Inertia::render('orders/index', [
             'orders' => $orders,
             'title' => $title,
+            'users' => $users,
+            'products' => $products,
             'singular_title' => Str::singular($title),
         ]);
     }
@@ -45,7 +52,36 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        //
+        $id = $request->user_id;
+        DB::beginTransaction();
+        try {
+            $user = User::find($id);
+            $order = $user->orders()->create([
+                'shipping_address' => $request->shipping_address,
+                'status' => $request->status,
+                'details' => Str::random(16),
+            ]);
+            $products =  $request->products;
+
+            foreach ($products as $key => $product) {
+                $order->order_items()->create([
+                    'product_id' => $product['id'],
+                    'quantity' => 1,
+                    'price' => $product['price'],
+                ]);
+            }
+            if ($order && $request->status == 'paid') {
+                $order->transactions()->create([
+                    'transaction_number' => Str::random(16),
+                    'payment_by' => 'Paypal',
+                    'amount' => $order->order_total
+                ]);
+            }
+            Db::commit();
+        } catch (\Throwable $th) {
+            throw $th;
+            Db::rollBack();
+        }
     }
 
     /**
@@ -54,9 +90,12 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function updateStatus(Request $request, $id)
     {
-        //
+
+        Order::where('id', $id)->update([
+            'status' => $request->status
+        ]);
     }
 
     /**
@@ -79,7 +118,32 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $order->update($request->all());
+        DB::beginTransaction();
+        try {
+            $products =  $request->products;
+            $order->order_items()->delete();
+            foreach ($products as $product) {
+                $order->order_items()->create([
+                    'product_id' => $product['id'],
+                    'quantity' => 1,
+                    'price' => $product['price'],
+                ]);
+            }
+            if ($order && $request->status == 'paid') {
+                $order->transactions()->updateOrCreate([
+                    'order_id' => $order->id
+                ],[
+                    'transaction_number' => Str::random(16),
+                    'payment_by' => 'Paypal',
+                    'amount' => $order->order_total
+                ]);
+            }
+            DB::commit();
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+        }
     }
 
     /**
@@ -90,6 +154,6 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
     }
 }

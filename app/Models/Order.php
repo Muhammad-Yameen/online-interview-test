@@ -11,6 +11,7 @@ class Order extends Model
 {
     use HasFactory,Currency;
     protected $appends = ['order_total'];
+    protected $fillable = ['shipping_address','quantity','price','details','status'];
 
     public function order_items()
     {

@@ -39,6 +39,24 @@ class ProductController extends Controller
     {
         Product::create($request->all());
     }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreProductRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Product $product)
+    {
+        $products = Product::orderBy('id','desc')->get();
+        $title = 'Show Product';
+        return Inertia::render(
+            'products/show',
+            [
+                'product' => $product,
+                'title' => $title,
+            ]
+            );
+    }
 
     /**
      * Update the specified resource in storage.
