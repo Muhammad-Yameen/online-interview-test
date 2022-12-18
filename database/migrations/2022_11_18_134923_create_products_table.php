@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('sku');
             $table->float('price');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

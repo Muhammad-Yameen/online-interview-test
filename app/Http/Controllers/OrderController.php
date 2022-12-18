@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\OrderRepositoryInterface;
+use App\Contracts\ProductRepositoryInterface;
+use App\Contracts\UserRepositoryInterface;
 use App\Events\CreateOrderEvent;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -15,6 +18,16 @@ use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
+    public OrderRepositoryInterface $order;
+    public UserRepositoryInterface $user;
+    public ProductRepositoryInterface $product;
+
+    public function __construct(OrderRepositoryInterface $order, UserRepositoryInterface $user, ProductRepositoryInterface $product)
+    {
+        $this->order = $order;
+        $this->user = $user;
+        $this->product = $product;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -23,9 +36,9 @@ class OrderController extends Controller
     public function index()
     {
         $title = 'Orders';
-        $orders = Order::with(['user', 'order_items.product'])->get();
-        $users = User::all();
-        $products = Product::all();
+        $orders = $this->order->all();
+        $users = $this->user->all();
+        $products = $this->product->all();
         return Inertia::render('orders/index', [
             'orders' => $orders,
             'title' => $title,
@@ -41,8 +54,9 @@ class OrderController extends Controller
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show($id)
     {
+        $order = $this->order->find($id);
         $title = 'Show Order';
 
         return Inertia::render(
@@ -52,8 +66,7 @@ class OrderController extends Controller
                 'transactions' => $order->transactions()->get(),
                 'title' => $title,
             ]
-            );
-
+        );
     }
     /**
      * Store a newly created resource in storage.
@@ -112,17 +125,6 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateOrderRequest  $request
@@ -146,7 +148,7 @@ class OrderController extends Controller
             if ($order && $request->status == 'paid') {
                 $order->transactions()->updateOrCreate([
                     'order_id' => $order->id
-                ],[
+                ], [
                     'transaction_number' => Str::random(16),
                     'payment_by' => 'Paypal',
                     'amount' => $order->order_total
@@ -154,7 +156,6 @@ class OrderController extends Controller
             }
             event(new CreateOrderEvent($order->load('user')));
             DB::commit();
-
         } catch (\Throwable $th) {
             DB::rollback();
         }
@@ -166,8 +167,8 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        $order->delete();
+        $this->order->delete($id);
     }
 }

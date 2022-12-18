@@ -2,14 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\ProductRepositoryInterface;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+
 class ProductController extends Controller
 {
+    public ProductRepositoryInterface $product;
+
+    public function __construct(ProductRepositoryInterface $product)
+    {
+        $this->product = $product;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +25,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id','desc')->get();
+        $products = $this->product->all();
         $title = 'Products';
         return Inertia::render(
             'products/index',
@@ -26,7 +34,7 @@ class ProductController extends Controller
                 'title' => $title,
                 'singular_title' => Str::singular($title),
             ]
-            );
+        );
     }
 
     /**
@@ -40,14 +48,13 @@ class ProductController extends Controller
         Product::create($request->all());
     }
     /**
-     * Store a newly created resource in storage.
+     * Show resource in storage.
      *
-     * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        $products = Product::orderBy('id','desc')->get();
+        $product  = $this->product->find($id);
         $title = 'Show Product';
         return Inertia::render(
             'products/show',
@@ -55,14 +62,13 @@ class ProductController extends Controller
                 'product' => $product,
                 'title' => $title,
             ]
-            );
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateProductRequest  $request
-     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateProductRequest $request, Product $product)
@@ -73,11 +79,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        $product->delete();
+        $this->product->delete($id);
     }
 }

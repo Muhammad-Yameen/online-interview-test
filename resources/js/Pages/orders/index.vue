@@ -133,7 +133,7 @@
     }
 
     const deleteItem = () => {
-        form.delete(route('users.destroy', isDelete.value), {
+        form.delete(route('orders.destroy', isDelete.value), {
             preserveScroll: true,
             onSuccess: () => closeDeleteModal(),
             onError: () => console.log('Error'),

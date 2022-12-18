@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\UserRepositoryInterface;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
@@ -12,22 +13,29 @@ use Symfony\Component\Console\Input\Input;
 
 class UserController extends Controller
 {
+    public UserRepositoryInterface $user;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(UserRepositoryInterface $user)
+    {
+        $this->user = $user;
+    }
+
     public function index()
     {
         $title = "Users";
-        $users =  User::withCount(['orders'])->orderby('id','desc')->get();
-        // echo "<pre>";print_r($users->toArray());die;
-        return Inertia::render('users/index',
-        [
-            'users' => $users,
-            'title' => $title,
-            'singular_title' => Str::singular($title)
-        ]);
+        $users =  $this->user->getAllWithOrderCounts();
+        return Inertia::render(
+            'users/index',
+            [
+                'users' => $users,
+                'title' => $title,
+                'singular_title' => Str::singular($title)
+            ]
+        );
     }
 
     /**
@@ -42,7 +50,6 @@ class UserController extends Controller
         $input['password'] =  bcrypt($request->password);
         $user  =  User::create($input);
         $user->markEmailAsVerified();
-
     }
 
     /**
@@ -54,8 +61,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->except(['password','password_confirmation']));
-        if($request->__isset('password')){
+        $user->update($request->except(['password', 'password_confirmation']));
+        if ($request->__isset('password')) {
             $user->update([
                 'password' => bcrypt($request->get('password'))
             ]);
@@ -68,8 +75,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        $user->delete();
+        $this->user->delete($id);
     }
 }

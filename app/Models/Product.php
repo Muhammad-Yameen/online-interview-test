@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Traits\Currency;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory,Currency;
+    use HasFactory, Currency, SoftDeletes;
 
     protected $fillable = ['name', 'sku', 'slug', 'price'];
 
