@@ -134,6 +134,10 @@
                                                 </th>
                                                 <th scope="col"
                                                     class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                    Role
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                                     Order Count
                                                 </th>
                                                 <th scope="col"
@@ -158,6 +162,10 @@
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     {{item.email}}
+                                                </td>
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-sm  font-medium text-gray-900 text-capitalize">
+                                                    {{item.role ?? ""}}
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

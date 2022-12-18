@@ -31,7 +31,6 @@
             required: true,
             default: 'Page Singular Name'
         },
-
     })
     const isUpdate = ref(null);
     const isDelete = ref(null);
@@ -114,7 +113,7 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <ResponsiveNavLink class="my-5" as='button' @click="openCreateModal" :active="true">Create
+                <ResponsiveNavLink  class="my-5" as='button' @click="openCreateModal" :active="true">Create
                     {{ singular_title ?? "" }}
                 </ResponsiveNavLink>
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
@@ -176,8 +175,8 @@
                                                 </td>
                                                 <td
                                                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                    <PrimaryButton @click="edit(item)"> Edit </PrimaryButton> |
-                                                    <DangerButton @click="confirmDeletion(item)"> Delete </DangerButton>
+                                                    <PrimaryButton  @click="edit(item)"> Edit </PrimaryButton> |
+                                                    <DangerButton  @click="confirmDeletion(item)"> Delete </DangerButton>
                                                 </td>
                                             </tr>
                                         </tbody>

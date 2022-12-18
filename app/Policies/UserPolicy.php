@@ -2,11 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class OrderItemPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -18,19 +17,19 @@ class OrderItemPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->role  == 'admin';
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\OrderItem  $orderItem
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, OrderItem $orderItem)
+    public function view(User $user, User $model)
     {
-        //
+        return $user->role === 'admin';
     }
 
     /**
@@ -41,54 +40,38 @@ class OrderItemPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->role === 'admin';
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\OrderItem  $orderItem
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, OrderItem $orderItem)
+    public function update(User $user, User $model)
     {
-        //
+        return $user->role === 'admin';
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\OrderItem  $orderItem
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, OrderItem $orderItem)
+    public function delete(User $user, User $model)
     {
-        //
+        return $user->role  == 'admin';
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\OrderItem  $orderItem
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, OrderItem $orderItem)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\OrderItem  $orderItem
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, OrderItem $orderItem)
-    {
-        //
-    }
 }

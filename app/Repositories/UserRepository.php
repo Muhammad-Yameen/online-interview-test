@@ -21,7 +21,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getAllWithOrderCounts()
     {
-        return $this->user->withCount(['orders'])->orderby('id', 'desc')->get();
+        return $this->user->where('role','!=','admin')->withCount(['orders'])->orderby('id', 'desc')->get();
     }
 
     public function find($id)

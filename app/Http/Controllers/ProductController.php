@@ -6,6 +6,8 @@ use App\Contracts\ProductRepositoryInterface;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -25,6 +27,8 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny',Product::class);
+
         $products = $this->product->all();
         $title = 'Products';
         return Inertia::render(
@@ -45,6 +49,8 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        $this->authorize('create',Product::class);
+
         Product::create($request->all());
     }
     /**
@@ -55,6 +61,9 @@ class ProductController extends Controller
     public function show($id)
     {
         $product  = $this->product->find($id);
+
+        $this->authorize('viewAny',$product);
+
         $title = 'Show Product';
         return Inertia::render(
             'products/show',
@@ -73,6 +82,8 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        $this->authorize('update',$product);
+
         $product->update($request->all());
     }
 
@@ -81,8 +92,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $this->product->delete($id);
+        $this->authorize('update',$user);
+
+        $this->product->delete($user->id);
+
     }
 }

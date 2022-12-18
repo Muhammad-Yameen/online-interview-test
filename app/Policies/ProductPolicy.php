@@ -18,7 +18,8 @@ class ProductPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        /* Every one can view */
+        return true;
     }
 
     /**
@@ -30,7 +31,8 @@ class ProductPolicy
      */
     public function view(User $user, Product $product)
     {
-        //
+        /* Every one can view */
+        return true;
     }
 
     /**
@@ -41,7 +43,19 @@ class ProductPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->role === 'admin';
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function modify(User $user)
+    {
+       return $user->role === 'admin';
     }
 
     /**
@@ -53,7 +67,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $product)
     {
-        //
+        return $user->role === 'admin';
     }
 
     /**
@@ -65,30 +79,7 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product)
     {
-        //
+        return $user->role === 'admin';
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Product $product)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Product $product)
-    {
-        //
-    }
 }

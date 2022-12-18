@@ -27,6 +27,8 @@ class UserController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny',User::class);
+
         $title = "Users";
         $users =  $this->user->getAllWithOrderCounts();
         return Inertia::render(
@@ -47,6 +49,8 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        $this->authorize('create',User::class);
+
         $input  = $request->all();
         $input['password'] =  bcrypt($request->password);
         $user  =  User::create($input);
@@ -62,6 +66,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('update',$user);
+
         $user->update($request->except(['password', 'password_confirmation']));
         if ($request->__isset('password')) {
             $user->update([
@@ -76,8 +82,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $this->user->delete($id);
+        $this->authorize('delete',$user);
+
+        $this->user->delete($user->id);
     }
 }
