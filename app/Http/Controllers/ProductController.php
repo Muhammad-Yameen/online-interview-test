@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -35,6 +36,9 @@ class ProductController extends Controller
                 'products' => $products,
                 'title' => $title,
                 'singular_title' => Str::singular($title),
+                'CanCreate' => Gate::allows('create',Product::class),
+                'CanEdit' => Gate::allows('modify',Product::class),
+                'CanDelete' => Gate::allows('delete',Product::class)
             ]
         );
     }

@@ -6,14 +6,12 @@ use App\Contracts\UserRepositoryInterface;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
-use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\Input;
-
 class UserController extends Controller
 {
     public UserRepositoryInterface $user;
+
     public function __construct(UserRepositoryInterface $user)
     {
         $this->user = $user;

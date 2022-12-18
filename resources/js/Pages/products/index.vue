@@ -31,6 +31,18 @@
             required: true,
             default: 'Page Singular Name'
         },
+        CanCreate: {
+            required: true,
+            default:false
+        },
+        CanEdit: {
+            required: true,
+            default:false
+        },
+        CanDelete: {
+            required: true,
+            default:false
+        }
     })
     const isUpdate = ref(null);
     const isDelete = ref(null);
@@ -111,7 +123,7 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <ResponsiveNavLink  class="my-5" as='button' @click="openCreateModal" :active="true">Create
+                <ResponsiveNavLink v-if="CanCreate" class="my-5" as='button' @click="openCreateModal" :active="true">Create
                     {{ singular_title ?? "" }}
                 </ResponsiveNavLink>
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
@@ -172,10 +184,12 @@
                                                     {{item.formatted_price}}
                                                 </td>
                                                 <td
+                                                v-if="CanDelete || CanEdit"
                                                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                    <PrimaryButton  @click="edit(item)"> Edit </PrimaryButton> |
-                                                    <DangerButton  @click="confirmDeletion(item)"> Delete </DangerButton>
+                                                    <PrimaryButton v-if="CanEdit"  @click="edit(item)"> Edit </PrimaryButton> |
+                                                    <DangerButton v-if="CanDelete" @click="confirmDeletion(item)"> Delete </DangerButton>
                                                 </td>
+                                                <td v-else>--</td>
                                             </tr>
                                         </tbody>
                                     </table>

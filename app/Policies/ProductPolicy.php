@@ -19,7 +19,7 @@ class ProductPolicy
     public function viewAny(User $user)
     {
         /* Every one can view */
-        return $user->role == 'admin';
+        return true;
     }
 
     /**
@@ -65,7 +65,7 @@ class ProductPolicy
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Product $product)
+    public function update(User $user)
     {
         return $user->role === 'admin';
     }
@@ -77,7 +77,7 @@ class ProductPolicy
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Product $product)
+    public function delete(User $user)
     {
         return $user->role === 'admin';
     }
