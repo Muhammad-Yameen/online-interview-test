@@ -114,11 +114,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Product $product)
     {
-        $this->authorize('update',$user);
+        $this->authorize('delete',$product);
 
-        $this->product->delete($user->id);
+        $this->product->delete($product->id);
 
     }
 }
