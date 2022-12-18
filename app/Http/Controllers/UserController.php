@@ -14,15 +14,16 @@ use Symfony\Component\Console\Input\Input;
 class UserController extends Controller
 {
     public UserRepositoryInterface $user;
+    public function __construct(UserRepositoryInterface $user)
+    {
+        $this->user = $user;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct(UserRepositoryInterface $user)
-    {
-        $this->user = $user;
-    }
 
     public function index()
     {

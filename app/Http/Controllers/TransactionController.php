@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\OrderRepositoryInterface;
+use App\Contracts\TransactionRepositoryInterface;
 use App\Events\TransactionStatusUpdateEvent;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Models\Order;
@@ -11,6 +13,14 @@ use Illuminate\Support\Str;
 
 class TransactionController extends Controller
 {
+    public OrderRepositoryInterface $order;
+    public TransactionRepositoryInterface $transaction;
+    public function __construct(OrderRepositoryInterface $order, TransactionRepositoryInterface $transaction)
+    {
+        $this->order = $order;
+        $this->transaction = $transaction;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +28,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with('order')->orderBy('id', 'desc')->get();
-        $orders = Order::where('status', 'unpaid')->orderBy('id', 'desc')->get();
+        $transactions = $this->transaction->getAllWithOrders();
+        $orders = $this->order->getUnPaidOrders();
 
         $title = 'Transactions';
         return Inertia::render(
@@ -41,7 +51,7 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request)
     {
-        $order = Order::find($request->order_id);
+        $order = $this->order->find($request->order_id);
         Order::where('id', $order->id)->update(['status' => 'paid']);
         if ($order && $request->status == 'paid') {
             $order->transactions()->updateOrCreate([

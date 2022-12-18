@@ -17,6 +17,7 @@ class RepositoryServiceProvider extends ServiceProvider
             'User',
             'Product',
             'Order',
+            'Transaction',
         );
 
         foreach ($models as $model) {
