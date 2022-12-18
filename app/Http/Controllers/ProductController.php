@@ -7,8 +7,6 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -73,6 +71,26 @@ class ProductController extends Controller
             ]
         );
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateProductRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $title = 'Create Product';
+        $this->authorize('create',Product::class);
+        return Inertia::render(
+            'products/create',
+            [
+                'title' => $title,
+            ]
+        );
+        return "Create";
+    }
+
 
     /**
      * Update the specified resource in storage.

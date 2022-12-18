@@ -25,7 +25,6 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name'=>'required',
-            'slug' => 'required|unique:products,slug,'.$this->product->id,
             'sku' => 'required|unique:products,sku,'.$this->product->id,
             'price' =>'required',
         ];

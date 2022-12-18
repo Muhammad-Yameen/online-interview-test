@@ -40,7 +40,6 @@
     const form = useForm({
         'name': '',
         'sku': '',
-        'slug': '',
         'price': '',
     });
 
@@ -60,7 +59,6 @@
         isUpdate.value = item.id,
             form.name = item.name;
         form.sku = item.sku;
-        form.slug = item.slug;
         form.price = item.price;
         openCreateModal();
     };
@@ -163,7 +161,7 @@
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                    /{{item.slug}}
+                                                    {{item.slug}}
                                                 </td>
                                                 <td
                                                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -200,12 +198,6 @@
                         <TextInput id="name" ref="nameInput" v-model="form.name" type="text" class="mt-1 block w-full"
                             autocomplete="current-name" autofocus required />
                         <InputError class="mt-2" :message="form.errors.name" />
-                    </div>
-                    <div>
-                        <InputLabel for="slug" value="Slug" />
-                        <TextInput id="slug" ref="slugInput" v-model="form.slug" type="text" class="mt-1 block w-full"
-                            autocomplete="current-slug" autofocus required />
-                        <InputError class="mt-2" :message="form.errors.slug" />
                     </div>
                     <div>
                         <InputLabel for="sku" value="Sku" />

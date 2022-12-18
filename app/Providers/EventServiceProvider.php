@@ -7,6 +7,8 @@ use App\Events\TransactionStatusUpdateEvent;
 use App\Listeners\CreateOrderListener;
 use App\Listeners\TransactionStatusUpdateListener;
 use App\Listeners\WelcomeEmail;
+use App\Models\Product;
+use App\Observers\ProductObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -38,7 +40,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Product::observe(ProductObserver::class);
     }
 
     /**

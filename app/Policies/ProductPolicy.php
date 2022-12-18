@@ -19,7 +19,7 @@ class ProductPolicy
     public function viewAny(User $user)
     {
         /* Every one can view */
-        return true;
+        return $user->role == 'admin';
     }
 
     /**
