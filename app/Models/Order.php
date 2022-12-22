@@ -13,6 +13,9 @@ class Order extends Model
     protected $appends = ['order_total'];
     protected $fillable = ['shipping_address','quantity','price','details','status'];
 
+    const PAID = 'paid';
+    const UNPAID = 'unpaid';
+
     public function order_items()
     {
         return $this->hasMany(OrderItem::class);

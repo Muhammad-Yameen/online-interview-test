@@ -3,10 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\ReminderForUnPaidUsers;
-use App\Models\User;
-use App\Notifications\UnPaidInvoice;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
 class NotifyUnPaidUsersForPayment extends Command
 {
@@ -22,7 +19,7 @@ class NotifyUnPaidUsersForPayment extends Command
      *
      * @var string
      */
-    protected $description = 'This is notifucation for invoice unpaid users';
+    protected $description = 'This is a notification for invoice unpaid users';
 
     /**
      * Execute the console command.

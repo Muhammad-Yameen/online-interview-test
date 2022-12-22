@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Order;
 use App\Models\User;
 use App\Notifications\UnPaidInvoice;
 use Illuminate\Bus\Queueable;
@@ -31,15 +32,13 @@ class ReminderForUnPaidUsers implements ShouldQueue
      */
     public function handle()
     {
-        $users = User::whereHas('orders',function($query){
-            $query->where('status','unpaid');
+        $users = User::whereHas('orders', function ($query) {
+            $query->where('status', Order::UNPAID);
         })->get();
-        if($users->count()){
+        if ($users->count()) {
             foreach ($users as $user) {
                 $user->notify(new UnPaidInvoice);
             }
-
         }
-
     }
 }
