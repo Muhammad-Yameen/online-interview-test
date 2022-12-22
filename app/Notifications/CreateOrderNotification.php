@@ -43,13 +43,13 @@ class CreateOrderNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Create Order')
-                    ->line('Hi '. $notifiable->name)
-                    ->line('The order has been created successfully')
-                    ->line('Order Tracking Number: '. $this->order->details)
-                    ->line('Shipping Address: '. $this->order->shipping_address)
-                    ->line('Status: '. $this->order->status)
-                    ->line('Total Amount: '. $this->order->order_total)
-                    ->line('Thank you for using our application!');
+            ->line(__('global.greetings',['name'=>$notifiable->name]))
+            ->line(__('global.message', ['model' => 'Order', 'action' => 'created']))
+            ->line('Order Tracking Number: ' . $this->order->details)
+            ->line('Shipping Address: ' . $this->order->shipping_address)
+            ->line('Status: ' . $this->order->status)
+            ->line('Total Amount: ' . $this->order->order_total)
+            ->line(__('global.email_footer_greetings'));
     }
 
     /**

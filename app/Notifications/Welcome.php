@@ -41,9 +41,9 @@ class Welcome extends Notification implements ShouldQueue
     {
         return (new MailMessage)
         ->subject("Welcome Email")
-                    ->line('Thanks for register on our website .')
+                    ->line(__('global.welcome_registeration'))
                     ->action('Login', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line(__('global.email_footer_greetings'));
     }
 
     /**

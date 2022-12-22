@@ -43,7 +43,7 @@ class UnPaidInvoice extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->line('The Invoice with #45645456 is still Unpaid.')
                     ->action('Pay Now', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line(__('global.email_footer_greetings'));
     }
 
     /**

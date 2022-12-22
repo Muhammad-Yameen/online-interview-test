@@ -42,10 +42,10 @@ class TransactionStatusUpdateNotication extends Notification implements ShouldQu
     {
         return (new MailMessage)
             ->subject('Transaction Status Update')
-                    ->line('Hi '. $notifiable->name)
+                    ->line(__('global.greetings',$notifiable->name))
                     ->line('Transaction has been completed successfully with order id '.$this->order->details)
                     ->line('Transaction Number: '. $this->order->transactions->transaction_number)
-                    ->line('Thank you for using our application!');
+                    ->line(__('global.email_footer_greetings'));
     }
 
     /**
