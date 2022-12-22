@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Rules;
 
 use Illuminate\Support\Str;
@@ -43,10 +44,10 @@ class Password implements Rule
      */
     public function passes($attribute, $value)
     {
-        $this->lengthPasses = (Str::length($value) >= 8);
+        $this->lengthPasses = (Str::length($value) >= config('constants.password.length'));
         $this->uppercasePasses = (Str::lower($value) !== $value);
-        $this->numericPasses = ((bool) preg_match('/[0-9]/', $value));
-        $this->specialCharacterPasses = ((bool) preg_match('/[^A-Za-z0-9]/', $value));
+        $this->numericPasses = ((bool) preg_match(config('constants.numeric'), $value));
+        $this->specialCharacterPasses = ((bool) preg_match(config('constants.special_characters'), $value));
 
         return ($this->lengthPasses && $this->uppercasePasses && $this->numericPasses && $this->specialCharacterPasses);
     }
@@ -59,38 +60,38 @@ class Password implements Rule
     public function message()
     {
         switch (true) {
-            case ! $this->uppercasePasses
+            case !$this->uppercasePasses
                 && $this->numericPasses
                 && $this->specialCharacterPasses:
-                return 'The :attribute must be at least 10 characters and contain at least one uppercase character.';
+                return  trans('validation.custom.password.min.uppercase.self', ['min' => config('constants.password.length')]);
 
-            case ! $this->numericPasses
+            case !$this->numericPasses
                 && $this->uppercasePasses
                 && $this->specialCharacterPasses:
-                return 'The :attribute must be at least 10 characters and contain at least one number.';
+                return trans('validation.custom.password.min.numeric.self', ['min' => config('constants.password.length')]);
 
-            case ! $this->specialCharacterPasses
+            case !$this->specialCharacterPasses
                 && $this->uppercasePasses
                 && $this->numericPasses:
-                return 'The :attribute must be at least 10 characters and contain at least one special character.';
+                return trans('validation.custom.password.min.special_character.self', ['min' => config('constants.password.length')]);
 
-            case ! $this->uppercasePasses
-                && ! $this->numericPasses
+            case !$this->uppercasePasses
+                && !$this->numericPasses
                 && $this->specialCharacterPasses:
-                return 'The :attribute must be at least 10 characters and contain at least one uppercase character and one number.';
+                return trans('validation.custom.password.min.uppercase.numeric', ['min' => config('constants.password.length')]);
 
-            case ! $this->uppercasePasses
-                && ! $this->specialCharacterPasses
+            case !$this->uppercasePasses
+                && !$this->specialCharacterPasses
                 && $this->numericPasses:
-                return 'The :attribute must be at least 10 characters and contain at least one uppercase character and one special character.';
+                return trans('validation.custom.password.min.uppercase.special_character.self', ['min' => config('constants.password.length')]);
 
-            case ! $this->uppercasePasses
-                && ! $this->numericPasses
-                && ! $this->specialCharacterPasses:
-                return 'The :attribute must be at least 10 characters and contain at least one uppercase character, one number, and one special character.';
+            case !$this->uppercasePasses
+                && !$this->numericPasses
+                && !$this->specialCharacterPasses:
+                return trans('validation.custom.password.mixed', ['min' => config('constants.password.length')]);
 
             default:
-                return 'The :attribute must be at least 10 characters.';
+                return trans('validation.min.string', ['min' => config('constants.password.length')]);
         }
     }
 }

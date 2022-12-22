@@ -158,6 +158,23 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'password' => [
+            'min' => [
+                'uppercase' => [
+                    'self' => 'The :attribute must be at least :min characters and contain at least one uppercase character.',
+                    'numeric' => 'The :attribute must be at least :min characters and contain at least one uppercase character and one number.',
+                    'special_character' => 'The :attribute must be at least :min characters and contain at least one uppercase character and one special character.',
+                ],
+                'lowercase' => [
+                    'self' => 'The :attribute must be at least :min characters and contain at least one lowercase character.',
+                    'numeric' => 'The :attribute must be at least :min characters and contain at least one lowercase character and one number.',
+                    'special_character' => 'The :attribute must be at least :min characters and contain at least one lowercase character and one special character.',
+                ],
+                'numeric' => ['self' => 'The :attribute must be at least :min characters and contain at least one number.'],
+                'special_character' => ['self' => 'The :attribute must be at least :min characters and contain at least one special character.'],
+            ],
+            'mixed' => 'The :attribute must be at least :min characters and contain at least one uppercase character, one number, and one special character.',
+        ]
     ],
 
     /*
