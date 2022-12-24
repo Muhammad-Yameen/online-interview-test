@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>{{ config('app.name') }} - Home Page</title>
+    <title>{{ config('app.name') }}</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -29,13 +29,6 @@
 
     <!-- Template Main CSS File -->
     <link href="{{url('/')}}/assets/css/style.css" rel="stylesheet">
-
-    <!-- =======================================================
-  * Template Name: Arsha - v4.10.0
-  * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
@@ -45,9 +38,6 @@
         <div class="container d-flex align-items-center">
 
             <h1 class="logo me-auto"><a href="index.html">Bachelors Solution</a></h1>
-            <!-- Uncomment below if you prefer to use an image logo -->
-            <!-- <a href="index.html" class="logo me-auto"><img src="{{url('/')}}/assets/img/logo.png" alt="" class="img-fluid"></a>-->
-
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
@@ -90,7 +80,8 @@
                 <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
                     data-aos="fade-up" data-aos-delay="200">
                     <h1>Better Solutions For Your Daily Expenses</h1>
-                    <h2>We are trying to make people free from doing daily calculations which are done the whole day after coming from their work</h2>
+                    <h2>We are trying to make people free from doing daily calculations which are done the whole day
+                        after coming from their work</h2>
                     <div class="d-flex justify-content-center justify-content-lg-start">
                         <a href="{{ route('register') }}" class="btn-get-started scrollto">Get Started</a>
                         <a href="https://www.youtube.com/watch?v=_vhfEtJsOjE" class="glightbox btn-watch-video"><i
@@ -153,7 +144,10 @@
                 <div class="row content">
                     <div class="col-lg-6">
                         <p>
-                        Our Mission is to give the people solutions who did their job whole the day and then they did the shopping with more than one person and they waste their time and do their calculations on how should you pay etc. You just put your expense it will calculate whole the stuff and give you the final calculation for all individuals
+                            Our Mission is to give the people solutions who did their job whole the day and then they
+                            did the shopping with more than one person and they waste their time and do their
+                            calculations on how should you pay etc. You just put your expense it will calculate whole
+                            the stuff and give you the final calculation for all individuals
                         </p>
                         <ul>
                             <li><i class="ri-check-double-line"></i> Open Yours Bills </li>
@@ -163,7 +157,8 @@
                     </div>
                     <div class="col-lg-6 pt-4 pt-lg-0">
                         <p>
-                            Currently, We are working on more stuff make it advance and give you the a lot of things in it with very tiny cost
+                            Currently, We are working on more stuff make it advance and give you the a lot of things in
+                            it with very tiny cost
                         </p>
                         <a href="{{ route('login') }}" class="btn-learn-more">Learn More</a>
                     </div>
@@ -242,8 +237,8 @@
                     </div>
 
                     <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img"
-                        style='background-image: url("{{url('/')}}/assets/img/why-us.png");' data-aos="zoom-in"
-                        data-aos-delay="150">&nbsp;</div>
+                        style='background-image: url("assets/img/why-us.png")' data-aos="zoom-in" data-aos-delay="150">
+                        &nbsp;</div>
                 </div>
 
             </div>
@@ -917,11 +912,7 @@
                 &copy; Copyright <strong><span>Arsha</span></strong>. All Rights Reserved
             </div>
             <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/ -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                Designed by <a href="https://bytechsolution.com/">BytechSolution</a>
             </div>
         </div>
     </footer><!-- End Footer -->
