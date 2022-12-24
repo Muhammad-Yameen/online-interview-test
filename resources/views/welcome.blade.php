@@ -93,7 +93,7 @@
                     <h2>We are trying to make people free from doing daily calculations which are done the whole day after coming from their work</h2>
                     <div class="d-flex justify-content-center justify-content-lg-start">
                         <a href="{{ route('register') }}" class="btn-get-started scrollto">Get Started</a>
-                        <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i
+                        <a href="https://www.youtube.com/watch?v=_vhfEtJsOjE" class="glightbox btn-watch-video"><i
                                 class="bi bi-play-circle"></i><span>Watch Video</span></a>
                     </div>
                 </div>
@@ -807,7 +807,7 @@
                     </div>
 
                     <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-                        <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                        <form action="{{ route('contact') }}" method="post" role="form" class="php-email-form">
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="name">Your Name</label>
@@ -850,7 +850,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
                         <h4>Join Our Newsletter</h4>
-                        <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                        <p>Please Subscripe to get new updates</p>
                         <form action="" method="post">
                             <input type="email" name="email"><input type="submit" value="Subscribe">
                         </form>
@@ -864,7 +864,7 @@
                 <div class="row">
 
                     <div class="col-lg-3 col-md-6 footer-contact">
-                        <h3>Arsha</h3>
+                        <h3>{{ config('app.name') }}</h3>
                         <p>
                             A108 Adam Street <br>
                             New York, NY 535022<br>
